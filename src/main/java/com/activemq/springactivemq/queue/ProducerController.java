@@ -1,4 +1,4 @@
-package com.activemq.springactivemq.producer;
+package com.activemq.springactivemq.queue;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jms.core.JmsMessagingTemplate;

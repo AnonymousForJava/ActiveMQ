@@ -1,4 +1,4 @@
-package com.activemq.springactivemq.consumer;
+package com.activemq.springactivemq.queue;
 
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
