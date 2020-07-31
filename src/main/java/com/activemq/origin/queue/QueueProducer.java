@@ -27,7 +27,14 @@ public class QueueProducer {
         //打开链接
         connection.start();
         //创建会话
-        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);//使用自动确认模式,必须要创建无事务session
+        /*
+        Session.AUTO_ACKNOWLEDGE：自动应答。
+        Session.CLIENT_ACKNOWLEDGE：手动应答
+        Session.DUPS_OK_ACKNOWLEDGE：延迟提交
+        Session.SESSION_TRANSACTED：事务
+        */
+
         //创建队列目标
         Destination destination = session.createQueue(QUEUE_NAME);
         //创建一个生产者
