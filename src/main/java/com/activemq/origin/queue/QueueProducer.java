@@ -15,7 +15,7 @@ import javax.jms.*;
 @Slf4j
 public class QueueProducer {
     //定义activemq链接地址
-    private static final String ACTIVE_MQ_ADDRESS="tcp://127.0.0.1:8161";
+    private static final String ACTIVE_MQ_ADDRESS="tcp://127.0.0.1:61616";
     //定义发送的队列
     private static final String QUEUE_NAME = "MyMessage";
 
