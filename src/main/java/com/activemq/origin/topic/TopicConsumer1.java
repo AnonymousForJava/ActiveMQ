@@ -3,21 +3,20 @@ package com.activemq.origin.topic;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
+
 /**
- * @ClassName TopicProducer
- * @Description TODO 手动创建消息发送者      主题模型消息发送者
+ * @ClassName TopicConsumer
+ * @Description TODO 手动创建消息发送者      主题模型消息接受者
  * @Author ZhangY
  * @Date 2019/12/23 14:19
  * @Version 1.0.0
  */
-public class TopicProducer {
-
+public class TopicConsumer1 {
     //定义ActivMQ的连接地址
     private static final String ACTIVEMQ_URL = "tcp://127.0.0.1:61616";
-    //定义发送消息的主题名称
+    //定义发送消息的队列名称
     private static final String TOPIC_NAME = "MyTopicMessage";
-
-    public static void main(String[] args) throws JMSException, InterruptedException {
+    public static void main(String[] args) throws JMSException {
         //创建连接工厂
         ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(ACTIVEMQ_URL);
         //创建连接
@@ -28,18 +27,19 @@ public class TopicProducer {
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         //创建队列目标
         Destination destination = session.createTopic(TOPIC_NAME);
-        //创建一个生产者
-        javax.jms.MessageProducer producer = session.createProducer(destination);
-        //创建模拟100个消息
-        for (int i = 1; i <= 100; i++) {
-            TextMessage message = session.createTextMessage("当前message是(主题模型):" + i);
-            //发送消息
-            producer.send(message);
-            //在本地打印消息
-            System.out.println("我现在发的消息是：" + message.getText());
-            Thread.sleep(1000);
-        }
-        //关闭连接
-        connection.close();
+        //创建消费者
+        MessageConsumer consumer = session.createConsumer(destination);
+        //创建消费的监听
+        consumer.setMessageListener(new MessageListener() {
+            @Override
+            public void onMessage(Message message) {
+                TextMessage textMessage = (TextMessage) message;
+                try {
+                    System.out.println("获取消息：" + textMessage.getText());
+                } catch (JMSException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

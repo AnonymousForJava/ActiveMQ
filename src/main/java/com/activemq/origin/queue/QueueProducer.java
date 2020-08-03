@@ -19,7 +19,7 @@ public class QueueProducer {
     //定义发送的队列
     private static final String QUEUE_NAME = "MyMessage";
 
-    public static void main(String[] args) throws JMSException {
+    public static void main(String[] args) throws JMSException, InterruptedException {
         //创建链接工厂
         ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(ACTIVE_MQ_ADDRESS);
         //创建链接
@@ -40,11 +40,12 @@ public class QueueProducer {
         //创建一个生产者
         MessageProducer producer = session.createProducer(destination);
         //创建模拟的一百个消息
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             TextMessage textMessage = session.createTextMessage("我发送的消息"+i);
             producer.send(textMessage);
             System.out.println("成功发送"+i+"个消息");
             log.debug("成功发送"+i+"个消息");
+            Thread.sleep(100);
         }
         //关闭链接
         connection.close();
